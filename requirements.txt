@@ -11,4 +11,3 @@ ffmpeg-python
 whisper
 runwayml
 uuid
-zapcap
