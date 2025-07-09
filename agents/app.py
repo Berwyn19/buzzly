@@ -1,4 +1,4 @@
-from generate_video import orchestrate
+from .generate_video import orchestrate
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
