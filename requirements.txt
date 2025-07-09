@@ -1,3 +1,14 @@
 python-dotenv==1.0.0
 google-generativeai==0.3.2
 Pillow==10.2.0
+fastapi
+uvicorn
+aiohttp
+openai
+requests
+pydantic
+ffmpeg-python
+whisper
+runwayml
+uuid
+zapcap

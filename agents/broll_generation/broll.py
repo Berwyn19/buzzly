@@ -113,10 +113,38 @@ def generate_broll_scene(dynamic_description: str, output_path: str) -> Dict[str
         
         return {
             'success': True,
-            'static_description': static_description,
             'motion_prompt': motion_prompt,
+            'static_description': static_description,
             'video_path': video_path,
             'image_base64': image_b64
+        }
+        
+    except Exception as e:
+        return {
+            'success': False,
+            'error': str(e)
+        }
+
+def generate_broll_for_product(dynamic_description: str, product_image_b64: str, output_path: str) -> Dict[str, Any]:
+    """Generate a video for a product from a dynamic description"""
+    try:
+        # Convert descriptions for both image and video
+        motion_prompt = convert_to_runway_prompt(dynamic_description)
+        
+        print(f"\n Generated motion prompt: {motion_prompt}")
+        
+        # Generate the video using the Runway-compliant prompt
+        video_path = generate_video_from_image(
+            image_base64=product_image_b64,
+            output_path=output_path,
+            prompt_text=motion_prompt,
+            ratio='720:1280'  # Portrait 9:16 ratio (720p)
+        )
+        
+        return {
+            'success': True,
+            'motion_prompt': motion_prompt,
+            'video_path': video_path
         }
         
     except Exception as e:

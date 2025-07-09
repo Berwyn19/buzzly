@@ -3,6 +3,7 @@ import base64
 from openai import OpenAI
 from dotenv import load_dotenv
 from typing import Optional
+import requests
 
 # Load environment variables
 load_dotenv()
@@ -26,30 +27,36 @@ class BrollImageGenerator:
         return f"{scene_description}{style_suffix}"
 
     def generate_image(
-        self,
-        scene_description: str,
-        style_keywords: Optional[list] = None,
-        size: str = "1024x1024",
-        quality: str = "hd"
-    ) -> str:
+            self,
+            scene_description: str,
+            style_keywords: Optional[list] = None,
+            size: str = "1024x1024",
+            quality: str = "hd"
+        ) -> str:
         """Generate a realistic image using DALL-E 3 and return base64 string"""
+
+        prompt = self._construct_prompt(scene_description, style_keywords)
+        print(f"\nGenerating image with prompt: {prompt}")
         
         try:
-            prompt = self._construct_prompt(scene_description, style_keywords)
-            print(f"\nGenerating image with prompt: {prompt}")
-            
             # Generate image with DALL-E 3
             response = self.client.images.generate(
-                model="gpt-image-1",
+                model="dall-e-3",
                 prompt=f"{prompt}. Compose this as a vertical/portrait shot with 9:16 aspect ratio.",
                 size=size,
                 quality=quality,
-                n=1,
-                response_format="b64_json"  # Always request base64
+                n=1
             )
-            
-            # Return the base64 string
-            return response.data[0].b64_json
+
+            # Get the image URL
+            image_url = response.data[0].url
+
+            # Download the image
+            img_data = requests.get(image_url).content
+
+            # Encode to base64
+            b64_img = base64.b64encode(img_data).decode('utf-8')
+            return b64_img
 
         except Exception as e:
             raise Exception(f"Error generating image: {str(e)}")

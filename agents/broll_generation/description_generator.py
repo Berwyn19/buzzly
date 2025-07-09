@@ -73,11 +73,34 @@ You may also choose a broll that runs over multiple segment, just make sure you 
     result = json.loads(response.choices[0].message.content)
     return BrollDescription(**result)
 
+def generate_product_movement(transcript):
+    prompt = f"""
+        Transcript:
+        {transcript}
+        
+        Now choose one timestamp where the product should be shown in motion. You may use simple movement like zoom in, rotate, pan, or fade. 
+        You can also combine movements if it makes sense, but keep it simple and relevant to the transcript.
+    """
+
+    response = client.beta.chat.completions.parse(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a video editor's assistant. Choose and describe one new B-roll scene for the transcript, just keep the scene simple Respond with a JSON object containing 'start' (float), 'end' (float), and 'description' (string)."},
+            {"role": "user", "content": prompt},
+        ],
+        response_format=BrollDescription
+    )
+    import json
+    result = json.loads(response.choices[0].message.content)
+    return BrollDescription(**result)
+    
+
 def generate_all_brolls(transcript) -> List[BrollDescription]:
     count = estimate_broll_count(transcript)
     brolls: List[BrollDescription] = []
-
-    for _ in range(min(3, count)):
+    first_broll = generate_product_movement(transcript)
+    brolls.append(first_broll)
+    for _ in range(min(2, count)):
         new_broll = generate_single_broll(transcript, brolls)
         brolls.append(new_broll)
 
