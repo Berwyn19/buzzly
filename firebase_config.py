@@ -13,6 +13,6 @@ if not firebase_admin._apps:
     firebase_credentials["private_key"] = firebase_credentials["private_key"].replace("\\n", "\n")
     cred = credentials.Certificate(firebase_credentials)
     initialize_app(cred, {
-        'storageBucket': 'ugcgenerator-5884a.appspot.com'  # Your actual bucket
+        'storageBucket': 'ugcgenerator-5884a.firebasestorage.app'  # Your actual bucket
     })
 
