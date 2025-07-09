@@ -4,15 +4,15 @@ from pathlib import Path
 from typing import Dict, Any, List
 import asyncio
 
-from agents.ffmpeg.extract_audio import extract_audio
-from agents.ffmpeg.transcribe import transcribe_audio
-from agents.ffmpeg.wrapper import ffmpeg_merge
-from agents.broll_generation.description_generator import generate_all_brolls
-from agents.broll_generation.broll import generate_broll_scene, generate_broll_for_product
-from agents.broll_generation.broll_image import generate_broll_image
-from agents.script import GenerateScript
-from agents.heygen import generate_avatar_video
-from agents.zapcap import ZapCapCaptionGenerator
+from agents_server.ffmpeg.extract_audio import extract_audio
+from agents_server.ffmpeg.transcribe import transcribe_audio
+from agents_server.ffmpeg.wrapper import ffmpeg_merge
+from agents_server.broll_generation.description_generator import generate_all_brolls
+from agents_server.broll_generation.broll import generate_broll_scene, generate_broll_for_product
+from agents_server.broll_generation.broll_image import generate_broll_image
+from agents_server.script import GenerateScript
+from agents_server.heygen import generate_avatar_video
+from agents_server.zapcap import ZapCapCaptionGenerator
 import base64
 import uuid
 from datetime import datetime

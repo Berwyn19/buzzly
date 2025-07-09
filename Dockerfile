@@ -22,4 +22,4 @@ EXPOSE 8080
 ENV PYTHONUNBUFFERED=1
 
 # Start the app using uvicorn
-CMD ["uvicorn", "agents.app:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "agents_server.app:app", "--host", "0.0.0.0", "--port", "8080"]

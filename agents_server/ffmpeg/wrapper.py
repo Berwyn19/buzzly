@@ -1,5 +1,5 @@
-from agents.ffmpeg.extract_audio import extract_audio
-from agents.ffmpeg.transcribe import transcribe_audio
+from agents_server.ffmpeg.extract_audio import extract_audio
+from agents_server.ffmpeg.transcribe import transcribe_audio
 import subprocess
 import os
 import tempfile
