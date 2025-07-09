@@ -2,37 +2,43 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from firebase_config import *
 from firebase_admin import storage
-from .generate_video import orchestrate  # or just `import generate_video` if orchestrate is not a function
 import uuid
+import tempfile
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://localhost:3000"]
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.post("/api/generate")
-async def generate_video_endpoint(request: Request):
+async def dummy_generate_video(request: Request):
     try:
-        # info = await request.json()
+        # Parse JSON payload to make sure request is valid
+        info = await request.json()
+        print("Received JSON:", info)
 
-        # # Call the orchestration function that generates the video
-        # result = await orchestrate(info)  # e.g., "output/video123.mp4"
-        # local_video_path = result['captioned_video']
+        # Step 1: Create a dummy file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp_file:
+            tmp_file.write(b"This is a dummy video file for testing Firebase upload.")
+            local_video_path = tmp_file.name
 
-        # # Upload video to Firebase Storage
-        # bucket = storage.bucket()
-        # firebase_path = f"generatedVideos/{uuid.uuid4()}.mp4"
-        # blob = bucket.blob(firebase_path)
-        # blob.upload_from_filename(local_video_path)
-        # blob.make_public()
-        # public_url = blob.public_url
+        # Step 2: Upload dummy file to Firebase Storage
+        bucket = storage.bucket()
+        filename = f"generatedVideos/{uuid.uuid4()}.mp4"
+        blob = bucket.blob(filename)
+        blob.upload_from_filename(local_video_path)
+        blob.make_public()
 
-        return {"success": True, "video_url": "kontol plot"}
+        # Step 3: Return Firebase public URL
+        return {
+            "status": True,
+            "videoUrl": blob.public_url,
+        }
 
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        return {"status": False, "error": str(e)}
