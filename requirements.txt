@@ -12,3 +12,4 @@ whisper
 runwayml
 uuid
 openai-agents
+firebase-admin
