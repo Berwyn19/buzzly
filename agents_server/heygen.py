@@ -183,37 +183,28 @@ def generate_avatar_video(
     output_name: Optional[str] = None,
     **kwargs
 ) -> Dict[str, Any]:
-    """Convenience function to generate a video using HeyGen and save it to the videos folder.
-    
-    Args:
-        avatar_id (str): ID of the avatar to use
-        input_text (str): Text for the avatar to speak
-        output_name (Optional[str]): Name for the output video file (without extension)
-        **kwargs: Additional arguments to pass to HeyGenVideoGenerator.generate_video()
-        
-    Returns:
-        Dict: Result dictionary from HeyGenVideoGenerator
-    """
+    """Convenience function to generate a video using HeyGen and save it to a given path."""
+
     try:
         generator = HeyGenVideoGenerator()
-        
-        # Create videos directory if it doesn't exist
-        videos_dir = 'videos'
-        Path(videos_dir).mkdir(exist_ok=True)
-        
-        # Generate output filename if not provided
+
+        # If no output path is given, generate a default one
         if output_name is None:
-            output_name = f"heygen_video_{int(time.time())}"
-        
-        output_path = os.path.join(videos_dir, f"{output_name}.mp4")
-        
+            BASE_DIR = "/app"
+            videos_dir = os.path.join(BASE_DIR, "output", "videos")
+            Path(videos_dir).mkdir(parents=True, exist_ok=True)
+            output_name = os.path.join(videos_dir, f"heygen_video_{int(time.time())}.mp4")
+        else:
+            # Ensure the directory exists
+            Path(os.path.dirname(output_name)).mkdir(parents=True, exist_ok=True)
+
         return generator.generate_video(
             avatar_id=avatar_id,
             input_text=input_text,
-            output_path=output_path,
+            output_path=output_name,
             **kwargs
         )
-        
+
     except Exception as e:
         return {
             'success': False,
@@ -221,6 +212,7 @@ def generate_avatar_video(
             'video_path': None,
             'video_id': None
         }
+
 
 def main():
     # Example usage
