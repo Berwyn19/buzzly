@@ -14,6 +14,7 @@ from agents_server.script import GenerateScript
 from agents_server.heygen import generate_avatar_video
 from agents_server.zapcap import ZapCapCaptionGenerator
 import base64
+import aiohttp
 import uuid
 from datetime import datetime
 
@@ -147,6 +148,14 @@ def ensure_unique_output_dir(base_output: str = "output") -> str:
     return unique_path
 
 
+async def fetch_image_as_base64(url: str) -> str:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status != 200:
+                raise ValueError(f"Failed to fetch image from {url}")
+            image_bytes = await response.read()
+            return base64.b64encode(image_bytes).decode("utf-8")
+
 
 async def orchestrate(info: dict):
     # 1. Generate script
@@ -165,12 +174,18 @@ async def orchestrate(info: dict):
         voice_speed=1.1
     )
 
+    product_image_url = info.get("productImage")
+    if not product_image_url:
+        raise KeyError("Missing 'productImage' URL in info")
+
+    product_image_b64 = await fetch_image_as_base64(product_image_url)
+
     # 3. Generate b-roll-enhanced final video
     result = generate_video_with_broll(
         input_video_path=avatar_video_path,
         output_dir=unique_output_dir,
         final_output_name="final_video.mp4",
-        product_image_b64=info["product_image_b64"]
+        product_image_b64=product_image_b64
     )
 
     if not result.get("success"):
