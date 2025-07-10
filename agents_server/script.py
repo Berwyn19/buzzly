@@ -142,12 +142,12 @@ class GenerateScript:
             outline_prompt = f"""
                 You are a marketing script outline generator. You are provided with the details of a product:
 
-                - Product Name: {self.info['product_name']}
+                - Product Name: {self.info['productName']}
                 - Language: {self.info['language']}
-                - Description: {self.info['description']}
+                - Description: {self.info['productDescription']}
                 - Price: {self.info['price']}
-                - Promotion Detail: {self.info['promotion_detail']}
-                - Target Audience: {self.info['target_audience']}
+                - Promotion Detail: {self.info['promotion']}
+                - Target Audience: {self.info['audience']}
                 
                 You are provided with the market research insights:
                 {market_research_result.final_output}
@@ -177,12 +177,12 @@ class GenerateScript:
             generation_prompt = f"""
                 You are a PhD in marketing and expert in generating short marketing video scripts
                 You are given the following information:
-                - Product Name: {self.info['product_name']}
+                - Product Name: {self.info['productName']}
                 - Language: {self.info['language']}
-                - Description: {self.info['description']}
+                - Description: {self.info['productDescription']}
                 - Price: {self.info['price']}
-                - Promotion Detail: {self.info['promotion_detail']}
-                - Target Audience: {self.info['target_audience']}
+                - Promotion Detail: {self.info['promotion']}
+                - Target Audience: {self.info['audience']}
                 
                 You are also given the following market research insights:
                 {market_research_result.final_output}
