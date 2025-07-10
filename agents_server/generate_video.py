@@ -145,7 +145,7 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 
 def ensure_unique_output_dir():
     # Create a unique directory name using timestamp or UUID
-    unique_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:8]
+    unique_name = datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:8]
     path = os.path.join(OUTPUT_DIR, unique_name)
     os.makedirs(path, exist_ok=True)
     return path
