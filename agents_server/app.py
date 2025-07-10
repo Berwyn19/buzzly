@@ -4,6 +4,7 @@ from firebase_config import *
 from firebase_admin import storage
 import uuid
 import os
+from agents_server.generate_video import orchestrate
 
 app = FastAPI()
 
@@ -22,10 +23,15 @@ async def upload_existing_video(request: Request):
         info = await request.json()
         print("Received JSON:", info)
 
-        # Step 1: Define your local video path
-        local_video_path = os.path.join(os.getcwd(), "agents_server/output/captioned_video.mp4")
-        if not os.path.exists(local_video_path):
-            return {"status": False, "error": "Video file not found at specified path."}
+        result = await orchestrate(info)
+        if not result.get("captioned_video"):
+            return {
+                "status": False,
+                "error": "Video generation failed",
+                "details": result,
+            }
+
+        final_video_path = result["captioned_video"]
 
         # Step 2: Upload to Firebase Storage
         bucket = storage.bucket()
