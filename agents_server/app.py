@@ -37,7 +37,7 @@ async def upload_existing_video(request: Request):
         bucket = storage.bucket()
         filename = f"generatedVideos/{uuid.uuid4()}.mp4"
         blob = bucket.blob(filename)
-        blob.upload_from_filename(local_video_path)
+        blob.upload_from_filename(final_video_path)
         blob.make_public()
 
         # Step 3: Return public URL
