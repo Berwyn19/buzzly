@@ -119,12 +119,12 @@ class GenerateScript:
             research_prompt = f"""
                 You are a market research analyst. Based on the following product information, generate actionable 
                 market insights to help guide marketing strategy and positioning
-                - Product Name: {self.info['product_name']}
+                - Product Name: {self.info['productName']}
                 - Language: {self.info['language']}
-                - Description: {self.info['description']}
+                - Description: {self.info['productDescription']}
                 - Price: {self.info['price']}
-                - Promotion Detail: {self.info['promotion_detail']}
-                - Target Audience: {self.info['target_audience']}
+                - Promotion Detail: {self.info['promotion']}
+                - Target Audience: {self.info['audience']}
                 Please analyze:
                 1. The product's unique selling points and value proposition
                 2. Potential customer motivations and pain points
