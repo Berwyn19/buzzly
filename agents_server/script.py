@@ -58,12 +58,12 @@ class ResearchAgent:
         prompt = f"""Please analyze the following product and provide comprehensive market research insights:
         
         Product Information:
-        - Name: {info['product_name']}
+        - Name: {info['productName']}
         - Language: {info['language']}
-        - Description: {info['description']}
+        - Description: {info['productDescription']}
         - Price: {info['price']}
-        - Promotion: {info['promotion_detail']}
-        - Target Audience: {info['target_audience']}
+        - Promotion: {info['promotion']}
+        - Target Audience: {info['audience']}
 
         Provide a detailed analysis covering all key aspects of market research."""
         
