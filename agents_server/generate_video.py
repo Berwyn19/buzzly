@@ -139,13 +139,16 @@ def generate_video_with_broll(
         }
 
 
-def ensure_unique_output_dir(base_output: str = "output") -> str:
-    """Create a unique output directory per request"""
-    timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-    unique_id = uuid.uuid4().hex[:8]  # Shorten UUID for readability
-    unique_path = os.path.join(base_output, f"{timestamp}_{unique_id}")
-    os.makedirs(unique_path, exist_ok=True)
-    return unique_path
+BASE_DIR = "/app"  # Change this to your actual working directory in Docker
+OUTPUT_DIR = os.path.join(BASE_DIR, "output")
+
+
+def ensure_unique_output_dir():
+    # Create a unique directory name using timestamp or UUID
+    unique_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:8]
+    path = os.path.join(OUTPUT_DIR, unique_name)
+    os.makedirs(path, exist_ok=True)
+    return path
 
 
 async def fetch_image_as_base64(url: str) -> str:
