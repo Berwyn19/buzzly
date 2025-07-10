@@ -8,7 +8,7 @@ openai
 requests
 pydantic
 ffmpeg-python
-whisper
+openai-whisper
 runwayml
 uuid
 openai-agents
