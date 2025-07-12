@@ -1,3 +1,6 @@
+# Demo Video Link
+https://www.loom.com/share/726e133046a9469c8e3282af8735e123?sid=f58af501-2518-4505-b147-bd52c72cf636
+
 #  AI-Powered UGC Video Platform – Backend
 
 This is the backend scode for a **buzzly** that takes structured product data and outputs a marketing video with a realistic avatar. It leverages OpenAI agents, HeyGen, DALL·E, RunwayML, and other state-of-the-art tools for dynamic content generation.
